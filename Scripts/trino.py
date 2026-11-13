@@ -1,6 +1,7 @@
 import time
 from pathlib import Path
 import requests
+from check_reports import check_reports
 
 
 def execute(query):
@@ -34,6 +35,11 @@ def main():
     result = execute("SELECT sum(sale_quantity), sum(sale_total_price) FROM clickhouse.lab.fact_sales EXCEPT SELECT sum(CAST(sale_quantity AS INTEGER)), sum(CAST(sale_total_price AS DECIMAL(18,2))) FROM clickhouse.lab.stage")
     if result:
         raise ValueError(f"Не совпадают суммы: {result}")
+    reports = {}
+    for name in ["stores", "suppliers", "time"]:
+        result = execute(f"SELECT metric, entity, period, value FROM clickhouse.lab.report_{name}")
+        reports[name] = [dict(zip(["metric", "entity", "period", "value"], row)) for row in result]
+    check_reports(reports)
     print("Проверки количества и сумм пройдены")
 
 

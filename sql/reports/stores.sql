@@ -9,10 +9,10 @@ JOIN clickhouse.lab.dim_supplier sp ON f.supplier_key = sp.supplier_key
 JOIN clickhouse.lab.dim_date d ON f.date_key = d.date_key
 ),
 products AS (SELECT * FROM clickhouse.lab.dim_product)
-SELECT 'top_revenue' AS metric, entity, period, CAST(value AS DOUBLE) AS value FROM (SELECT store_email AS entity, '' AS period, SUM(sale_total_price) AS value FROM sales  GROUP BY store_email ORDER BY value DESC, entity LIMIT 5) result
+SELECT 'top_revenue' AS metric, entity, period, CAST(value AS DOUBLE) AS value FROM (SELECT store_name AS entity, '' AS period, SUM(sale_total_price) AS value FROM sales  GROUP BY store_name ORDER BY value DESC, entity LIMIT 5) result
 UNION ALL
 SELECT 'city_revenue' AS metric, entity, period, CAST(value AS DOUBLE) AS value FROM (SELECT CONCAT(store_country, ' / ', store_city) AS entity, '' AS period, SUM(sale_total_price) AS value FROM sales  GROUP BY CONCAT(store_country, ' / ', store_city)) result
 UNION ALL
 SELECT 'country_revenue' AS metric, entity, period, CAST(value AS DOUBLE) AS value FROM (SELECT store_country AS entity, '' AS period, SUM(sale_total_price) AS value FROM sales  GROUP BY store_country) result
 UNION ALL
-SELECT 'average_order' AS metric, entity, period, CAST(value AS DOUBLE) AS value FROM (SELECT store_email AS entity, '' AS period, AVG(sale_total_price) AS value FROM sales  GROUP BY store_email) result;
+SELECT 'average_order' AS metric, entity, period, CAST(value AS DOUBLE) AS value FROM (SELECT store_name AS entity, '' AS period, AVG(sale_total_price) AS value FROM sales  GROUP BY store_name) result;
