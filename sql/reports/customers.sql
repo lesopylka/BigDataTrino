@@ -13,4 +13,4 @@ SELECT 'top_revenue' AS metric, entity, period, CAST(value AS DOUBLE) AS value F
 UNION ALL
 SELECT 'country_customers' AS metric, entity, period, CAST(value AS DOUBLE) AS value FROM (SELECT customer_country AS entity, '' AS period, COUNT(DISTINCT customer_email) AS value FROM sales  GROUP BY customer_country) result
 UNION ALL
-SELECT 'average_order' AS metric, entity, period, CAST(value AS DOUBLE) AS value FROM (SELECT customer_email AS entity, '' AS period, AVG(sale_total_price) AS value FROM sales  GROUP BY customer_email) result;
+SELECT 'average_order' AS metric, entity, period, CAST(value AS DOUBLE) AS value FROM (SELECT customer_email AS entity, '' AS period, AVG(CAST(sale_total_price AS DOUBLE)) AS value FROM sales  GROUP BY customer_email) result;

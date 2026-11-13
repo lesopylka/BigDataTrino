@@ -15,4 +15,4 @@ SELECT 'city_revenue' AS metric, entity, period, CAST(value AS DOUBLE) AS value 
 UNION ALL
 SELECT 'country_revenue' AS metric, entity, period, CAST(value AS DOUBLE) AS value FROM (SELECT store_country AS entity, '' AS period, SUM(sale_total_price) AS value FROM sales  GROUP BY store_country) result
 UNION ALL
-SELECT 'average_order' AS metric, entity, period, CAST(value AS DOUBLE) AS value FROM (SELECT store_name AS entity, '' AS period, AVG(sale_total_price) AS value FROM sales  GROUP BY store_name) result;
+SELECT 'average_order' AS metric, entity, period, CAST(value AS DOUBLE) AS value FROM (SELECT store_name AS entity, '' AS period, AVG(CAST(sale_total_price AS DOUBLE)) AS value FROM sales  GROUP BY store_name) result;
