@@ -88,7 +88,7 @@ docker compose run --rm etl
 
 ```bash
 docker compose restart trino
-docker compose run --rm etl
+docker compose run --build --rm etl
 ```
 
 В конце ETL [Scripts/check_reports.py](Scripts/check_reports.py) сравнивает топы, средние и временные показатели с независимым расчетом по CSV. Магазины и поставщики сравниваются по названиям.
